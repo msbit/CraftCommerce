@@ -25,14 +25,14 @@ class Commerce_CustomerModel extends BaseModel
 {
     private $_user;
 
-    /*
-     * Returns the email address of the customer as the string output.
-     *
+    /**
      * @return string
      */
     public function __toString()
     {
-        return $this->getEmail();
+        craft()->deprecator->log('Commerce_CustomerModel::__toString()', 'Commerce_CustomerModel::__toString() has been deprecated. Use Commerce_OrderModel::getEmail() instead.');
+
+        return '';
     }
 
     /**
@@ -133,9 +133,12 @@ class Commerce_CustomerModel extends BaseModel
 
     /**
      * @return string
+     * @deprecated
      */
     public function getEmail()
     {
+        craft()->deprecator->log('Commerce_CustomerModel::getEmail()', 'Commerce_CustomerModel::getEmail() has been deprecated. Use Commerce_OrderModel::getEmail() instead.');
+
         $user = $this->getUser();
 
         if($user)

@@ -425,7 +425,10 @@ class Commerce_OrdersService extends BaseApplicationComponent
                 }
             }
 
-            $adjusters = $adjusters + $additionalAdjusters;
+            foreach ($additionalAdjusters as $additionalAdjuster)
+            {
+                $adjusters[] = $additionalAdjuster;
+            }
         }
 
         ksort($adjusters);

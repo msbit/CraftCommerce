@@ -418,6 +418,7 @@ class Commerce_CustomersService extends BaseApplicationComponent
                 }
             }
 
+            // This customer will always have an email address since it will be related to a user, but just in case.
             if (!$toCustomer->email)
             {
                 return false;

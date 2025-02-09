@@ -32,7 +32,7 @@
                     <td>
                         <h5>Details</h5>
                         <ul>
-                            <li><strong>{{ "Customer"|t }}:</strong> {{ order.customer.email }}</li>
+                            <li><strong>{{ "Customer"|t }}:</strong> {{ order.email }}</li>
                             <li><strong>{{ "Total"|t }}:</strong> {{ order.totalPrice|commerceCurrency(order.currency) }}</li>
                             <li><strong>{{ "Paid"|t }}:</strong>{{ order.totalPaid|commerceCurrency(order.currency) }} {{ order.datePaid|date('D dS M Y') }}</li>
                             <li><strong>{{ "Date"|t }}:</strong> {{ order.dateOrdered }}</li>
