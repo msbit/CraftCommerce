@@ -372,7 +372,7 @@ class Commerce_PaymentsController extends Commerce_BaseFrontEndController
     public function actionCompletePayment()
     {
         $hash = craft()->request->getParam('commerceTransactionHash');
-
+        CommercePlugin::log('completePayment');
         $transaction = craft()->commerce_transactions->getTransactionByHash($hash);
 
         if (!$transaction)
@@ -404,9 +404,17 @@ class Commerce_PaymentsController extends Commerce_BaseFrontEndController
     {
         $hash = craft()->request->getParam('commerceTransactionHash');
 
+        $transaction = craft()->commerce_transactions->getTransactionByHash($hash);
+
+        if (!$transaction)
+        {
+            throw new HttpException(400, Craft::t("Can not complete payment for missing transaction."));
+        }
+
+        CommercePlugin::log('acceptNotification');
         CommercePlugin::log(json_encode($_REQUEST,JSON_PRETTY_PRINT));
 
-        craft()->commerce_payments->acceptNotification($hash);
+        craft()->commerce_payments->acceptNotification($transaction);
     }
 
 }

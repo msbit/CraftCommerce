@@ -239,11 +239,9 @@ class Commerce_OrdersService extends BaseApplicationComponent
                     $this->onSaveOrder($event);
 
                     //creating order history record
-                    if ($orderRecord->id && $oldStatusId != $orderRecord->orderStatusId)
+                    if ($orderRecord->id  && $oldStatusId != $orderRecord->orderStatusId)
                     {
-                        if (!craft()->commerce_orderHistories->createOrderHistoryFromOrder($order,
-                            $oldStatusId)
-                        )
+                        if (!craft()->commerce_orderHistories->createOrderHistoryFromOrder($order, $oldStatusId))
                         {
                             CommercePlugin::log('Error saving order history after Order save.', LogLevel::Error);
                             throw new Exception('Error saving order history');
