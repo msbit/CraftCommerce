@@ -369,7 +369,7 @@ class Commerce_CustomersService extends BaseApplicationComponent
         $user = $event->params['user'];
         $customer = $this->getCustomerByUserId($user->id);
 
-        if (craft()->commerce_settings->getSettings()->resaveAllCustomerOrdersOnCustomerSave) {
+        if (craft()->config->get('resaveAllCustomerOrdersOnCustomerSave', 'commerce')) {
             // Sync the users email with the customer record.
             if ($customer) {
                 $orders = craft()->commerce_orders->getOrdersByCustomer($customer);
