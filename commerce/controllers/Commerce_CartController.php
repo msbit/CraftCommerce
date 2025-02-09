@@ -193,7 +193,8 @@ class Commerce_CartController extends Commerce_BaseFrontEndController
                 {
                     if (!$sameAddress)
                     {
-                        if ($billingAddressId = craft()->request->getParam('billingAddressId'))
+                        $billingAddressId = craft()->request->getParam('billingAddressId');
+                        if ($billingAddressId && is_numeric($billingAddressId))
                         {
                             if ($billingAddress = craft()->commerce_addresses->getAddressById($billingAddressId))
                             {

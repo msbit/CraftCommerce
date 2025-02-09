@@ -256,7 +256,7 @@ class Commerce_PaymentsService extends BaseApplicationComponent
                 {
                     $card->setShippingCountry($shippingAddress->getCountry()->iso);
                 }
-                
+
                 if ($shippingAddress->getState())
                 {
                     $state = $shippingAddress->getState()->abbreviation ?: $shippingAddress->getState()->name;
@@ -784,9 +784,10 @@ class Commerce_PaymentsService extends BaseApplicationComponent
         // If MOLLIE, the transactionReference will be theirs
         // Netbanx Hosted requires the transactionReference is the same
         // Authorize.net SIM https://github.com/thephpleague/omnipay-authorizenet/issues/19
-        // TODO: Move this into the gateway adapter.
+        // Affirm is added as a special consideration or legacy user using a 3rd party gateway. https://app.frontapp.com/open/cnv_zraqmj
+        // TODO: Move this into the gateway adapter. (Has been fixed in Commerce 2)
         $handle = $transaction->paymentMethod->getGatewayAdapter()->handle();
-        if ($handle == 'Mollie_Ideal' || $handle == 'Mollie' || $handle == 'NetBanx_Hosted' || $handle == 'AuthorizeNet_SIM')
+        if ($handle == 'Mollie_Ideal' || $handle == 'Mollie' || $handle == 'NetBanx_Hosted' || $handle == 'AuthorizeNet_SIM' || $handle == 'Affirm')
         {
             $params['transactionReference'] = $transaction->reference;
         }
