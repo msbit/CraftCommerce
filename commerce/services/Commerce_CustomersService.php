@@ -369,15 +369,15 @@ class Commerce_CustomersService extends BaseApplicationComponent
         $user = $event->params['user'];
         $customer = $this->getCustomerByUserId($user->id);
 
-        // Sync the users email with the customer record.
-        if ($customer)
-        {
-            $orders = craft()->commerce_orders->getOrdersByCustomer($customer);
+        if (craft()->commerce_settings->getSettings()->resaveAllCustomerOrdersOnCustomerSave) {
+            // Sync the users email with the customer record.
+            if ($customer) {
+                $orders = craft()->commerce_orders->getOrdersByCustomer($customer);
 
-            foreach ($orders as $order)
-            {
-                // Email will be set to the users email since $order->getEmail() returns the users email.
-                craft()->commerce_orders->saveOrder($order);
+                foreach ($orders as $order) {
+
+                    craft()->commerce_orders->saveOrder($order);
+                }
             }
         }
     }

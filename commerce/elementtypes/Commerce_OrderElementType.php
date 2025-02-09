@@ -290,6 +290,8 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
                     if ($value) {
                         return $value->localeDate().' '.$value->localeTime();
                     }
+
+                    return '';
                 }
             case 'totalPaid':
             case 'totalPrice':
@@ -431,7 +433,7 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
         }
 
         if ($criteria->number) {
-            $query->andWhere(DbHelper::parseParam('orders.number', $criteria->number, $query->params));
+            $query->andWhere(['orders.number'=> $criteria->number]);
         }
 
         if ($criteria->email) {

@@ -14,5 +14,6 @@ return [
     'pdfPaperSize' => 'letter',
     'pdfPaperOrientation' => 'portrait',
     'pdfAllowRemoteImages' => false,
-    'autoSetNewCartAddresses' => true
+    'autoSetNewCartAddresses' => true,
+    'resaveAllCustomerOrdersOnCustomerSave' => true
 ];

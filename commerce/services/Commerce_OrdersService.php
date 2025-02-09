@@ -19,7 +19,6 @@ use Commerce\Helpers\CommerceCurrencyHelper;
  */
 class Commerce_OrdersService extends BaseApplicationComponent
 {
-
     /**
      * @var
      */
