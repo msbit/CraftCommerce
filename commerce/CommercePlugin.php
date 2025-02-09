@@ -324,7 +324,7 @@ class CommercePlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '1.2.1356';
+        return '1.2.1358';
     }
 
     /**
