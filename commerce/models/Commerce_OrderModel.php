@@ -91,6 +91,11 @@ class Commerce_OrderModel extends BaseElementModel
     private $_orderAdjustments;
 
     /**
+     * @var bool $_recalcuate
+     */
+    private $_recalcuate = true;
+
+    /**
      * We need to have getters functions have maximum priority.
      * This was in the ModelRelationTrait so it needs to stay for backwards compatibility.
      * @param string $name
@@ -127,6 +132,24 @@ class Commerce_OrderModel extends BaseElementModel
     public function __toString()
     {
         return $this->getShortNumber();
+    }
+
+    /**
+     * @return bool Should this order recalculate before being saved
+     */
+    public function getShouldRecalculateAdjustments()
+    {
+        return (bool) (!$this->isCompleted && $this->_recalcuate);
+    }
+
+    /**
+     * @param bool $value
+     *
+     * @return void
+     */
+    public function setShouldRecalculateAdjustments($value)
+    {
+        $this->_recalcuate = $value;
     }
 
     /**
@@ -238,7 +261,7 @@ class Commerce_OrderModel extends BaseElementModel
      */
     public function isPaid()
     {
-        return (bool) $this->outstandingBalance() <= 0;
+        return (bool) max(0, $this->outstandingBalance() <= 0);
     }
 
     /**
@@ -246,7 +269,7 @@ class Commerce_OrderModel extends BaseElementModel
      */
     public function isUnpaid()
     {
-        return (bool) $this->outstandingBalance() > 0;
+        return (bool) max(0, $this->outstandingBalance() > 0);
     }
 
     /**
@@ -256,7 +279,6 @@ class Commerce_OrderModel extends BaseElementModel
      */
     public function outstandingBalance()
     {
-
         $totalPaid = CommerceCurrencyHelper::round($this->totalPaid);
         $totalPrice = CommerceCurrencyHelper::round($this->totalPrice);
         
@@ -283,6 +305,17 @@ class Commerce_OrderModel extends BaseElementModel
     {
         return $this->getTotalQty() == 0;
     }
+
+    /**
+     * Total number of items.
+     *
+     * @return int
+     */
+    public function getTotalTaxablePrice()
+    {
+        return $this->getItemSubtotal() + $this->getTotalDiscount() + $this->getTotalShippingCost();
+    }
+
 
     /**
      * Total number of items.
