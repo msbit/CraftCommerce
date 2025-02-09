@@ -508,6 +508,21 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
             $query->andWhere(DbHelper::parseParam('orders.paymentMethodId', $criteria->paymentMethodId, $query->params));
         }
 
+        if ($criteria->shippingMethod) {
+            if ($criteria->shippingMethod instanceof Commerce_ShippingMethodModel) {
+                if ($criteria->shippingMethod->id) {
+                    $criteria->shippingMethodid = $criteria->shippingMethod->id;
+                    $criteria->shippingMethod = null;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        if ($criteria->shippingMethodId) {
+            $query->andWhere(DbHelper::parseParam('orders.shippingMethodId', $criteria->shippingMethodId, $query->params));
+        }
+
 		if ($criteria->updatedOn) {
 			$query->andWhere(DbHelper::parseDateParam('orders.dateUpdated', $criteria->updatedOn, $query->params));
 		} else {
