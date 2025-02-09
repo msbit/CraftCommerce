@@ -198,7 +198,7 @@ class Commerce_PaymentsController extends Commerce_BaseFrontEndController
         foreach ($order->getLineItems() as $lineItem)
         {
             $purchasable = $lineItem->getPurchasable();
-            if($purchasable && $purchasable instanceof Commerce_VariantModel)
+            if($purchasable && $purchasable instanceof Commerce_VariantModel && !$purchasable->unlimitedStock)
             {
                 $purchasables[] = $purchasable;
                 if(isset($stockByVariantId[$purchasable->id]))
