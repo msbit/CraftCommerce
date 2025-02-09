@@ -374,7 +374,13 @@ class Commerce_CartService extends BaseApplicationComponent
             $this->_cart->currency = craft()->commerce_paymentCurrencies->getPrimaryPaymentCurrencyIso();
 
             // Payment currency is always set to the stores primary currency unless it is set to an allowed currency.
-            $currencies = \array_column(craft()->commerce_paymentCurrencies->getAllPaymentCurrencies(), 'iso');
+            $allCurrencies = craft()->commerce_paymentCurrencies->getAllPaymentCurrencies();
+            $currencies = [];
+
+            foreach ($allCurrencies as $currency)
+            {
+                $currencies[] = $currency->iso;
+            }
 
             if (defined('COMMERCE_PAYMENT_CURRENCY'))
             {
@@ -616,6 +622,7 @@ class Commerce_CartService extends BaseApplicationComponent
                     orders.itemTotal,
                     orders.baseDiscount,
                     orders.baseTax,
+                    orders.baseTaxIncluded,
                     orders.baseShippingCost,
                     orders.totalPrice,
                     orders.totalPaid,

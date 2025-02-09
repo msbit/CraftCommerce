@@ -362,6 +362,7 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
 			'email' => AttributeType::Mixed,
 			'isCompleted' => AttributeType::Mixed,
 			'dateOrdered' => AttributeType::Mixed,
+			'datePaid' => AttributeType::Mixed,
 			'updatedOn' => AttributeType::Mixed,
 			'updatedAfter' => AttributeType::Mixed,
 			'updatedBefore' => AttributeType::Mixed,
@@ -396,8 +397,9 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
 				orders.couponCode,
 				orders.itemTotal,
 				orders.baseDiscount,
-				orders.baseTax,
 				orders.baseShippingCost,
+				orders.baseTax,
+				orders.baseTaxIncluded,
 				orders.totalPrice,
 				orders.totalPaid,
 				orders.orderStatusId,
@@ -435,7 +437,11 @@ class Commerce_OrderElementType extends Commerce_BaseElementType
 			$query->andWhere(DbHelper::parseParam('orders.dateOrdered', $criteria->dateOrdered, $query->params));
 		}
 
-		// If the 'number' parameter is set to any empty value besides `null`, don't return anything
+        if ($criteria->datePaid) {
+            $query->andWhere(DbHelper::parseParam('orders.datePaid', $criteria->datePaid, $query->params));
+        }
+
+        // If the 'number' parameter is set to any empty value besides `null`, don't return anything
 		if ($criteria->number !== null && empty($criteria->number))
 		{
 			return false;
