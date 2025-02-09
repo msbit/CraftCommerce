@@ -73,7 +73,7 @@
 						</div>
 					</div>
 
-					{% if cart.paymentMethod.class == 'Stripe' %}
+					{% if 'Stripe' in cart.paymentMethod.class %}
 						<script
 								src="//checkout.stripe.com/checkout.js"
 								class="stripe-button"
@@ -114,7 +114,7 @@
 
 					{% endif %}
 
-					{% if (cart.paymentMethod.class != 'Stripe') and (cart.paymentMethod.class != 'WorldPay_Json') %}
+					{% if ('Stripe' not in cart.paymentMethod.class) and (cart.paymentMethod.class != 'WorldPay_Json') %}
 						<fieldset>
 							{% if cart.paymentMethod.requiresCard() %}
 								{% set currentYear = date()|date_modify("+1 year").format('Y') %}
